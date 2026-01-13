@@ -59,6 +59,21 @@ h1{
     font-size: 2.625rem;
 }
 
+h2{
+    font-size: 1.25rem;
+    color: #5B2960;
+    font-family: "larken";
+    font-weight: 400;
+}
+
+h3{
+    font-size: 1.875rem;
+    font-family: "larken";
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+
 .div-screen{
     height: 100vh;
     position: relative;
@@ -67,7 +82,7 @@ h1{
 
 .homescreen-center-ui{
     position: absolute;
-    top: 31vh;
+    top: 30vh;
     display: flex;
     width: 100vw;
     flex-direction: column;
@@ -145,4 +160,31 @@ h1{
     width: 100vw;
     text-align: center;
     color: #946897;
+}
+
+.second-screen, .third-screen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+}
+
+.second-screen > img{
+    width: 450px;
+    height: 470px;
+}
+
+.div-text-feature{
+    display: flex;
+    flex-direction: column;
+    width: 46ch;
+    order: 2;
+    gap: 0.8rem;
+}
+
+.headings{
+    /* width: 200px; */
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }

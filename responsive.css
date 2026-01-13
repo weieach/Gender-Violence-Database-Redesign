@@ -1,0 +1,9 @@
+@media (width < 1000px){
+    .second-screen{
+        flex-direction: column;
+    }
+
+    .div-text-feature{
+        order: -1;
+    }
+}
