@@ -32,27 +32,33 @@ function renderGlossary(sections) {
     container.innerHTML = sections.map(section => renderSection(section)).join('');
 }
 
+// Format number array as hierarchical string (e.g., [1, 2, 3] -> "1.2.3")
+function formatNumber(numberPath) {
+    return numberPath.join('.');
+}
+
 // Render a single section
 function renderSection(section) {
     return `
         <section class="glossary-section">
             <h2 class="glossary-section-title">${escapeHtml(section.section)}</h2>
             <div class="glossary-items">
-                ${section.items.map((item, index) => renderItem(item, index + 1, 1)).join('')}
+                ${section.items.map((item, index) => renderItem(item, [index + 1], 1)).join('')}
             </div>
         </section>
     `;
 }
 
 // Recursively render items and subitems
-function renderItem(item, number, level) {
+function renderItem(item, numberPath, level) {
     const itemClass = `glossary-item glossary-item-level-${level}`;
-    const itemId = `item-${number}-${level}`;
+    const numberString = formatNumber(numberPath);
+    const itemId = `item-${numberString.replace(/\./g, '-')}-${level}`;
     
     let html = `
         <div class="${itemClass}" id="${itemId}">
             <div class="glossary-item-header">
-                <span class="glossary-item-number">${number}.</span>
+                <span class="glossary-item-number">${numberString}.</span>
                 <h${Math.min(level + 2, 6)} class="glossary-item-title">${escapeHtml(item.title)}</h${Math.min(level + 2, 6)}>
             </div>
     `;
@@ -63,9 +69,11 @@ function renderItem(item, number, level) {
     
     if (item.subitems && item.subitems.length > 0) {
         html += '<div class="glossary-subitems">';
-        html += item.subitems.map((subitem, index) => 
-            renderItem(subitem, index + 1, level + 1)
-        ).join('');
+        html += item.subitems.map((subitem, index) => {
+            // Create new number path by appending the subitem index
+            const newNumberPath = [...numberPath, index + 1];
+            return renderItem(subitem, newNumberPath, level + 1);
+        }).join('');
         html += '</div>';
     }
     
