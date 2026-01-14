@@ -409,8 +409,8 @@ address{
 
 /* glossary sidebar */
 .sidebar{
-    position: absolute;
-    top: 30vh;
+    position: fixed;
+    top: 20vh;
     left: 44px;
     display: flex;
     flex-direction: column;
@@ -439,6 +439,7 @@ address{
     margin-left: 380px;
     margin-right: 44px;
     max-width: 800px;
+    margin-top: 10vh;
     padding-bottom: 4rem;
 }
 
@@ -472,12 +473,12 @@ address{
 }
 
 .glossary-item-level-2{
-    margin-left: 2rem;
+    margin-left: 1rem;
     margin-top: 1rem;
 }
 
 .glossary-item-level-3{
-    margin-left: 3rem;
+    margin-left: 1rem;
     margin-top: 0.75rem;
 }
 
