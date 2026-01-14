@@ -406,3 +406,131 @@ address{
 .help-tip .ph-bold{
     font-size: var(--title-md);
 }
+
+/* glossary sidebar */
+.sidebar{
+    position: absolute;
+    top: 30vh;
+    left: 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 300px;
+}
+
+.sidebar-header{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sidebar-header .ph-info{
+    font-size: var(--title-md);
+}
+
+/* glossary main content */
+.glossary-page{
+    padding-top: 100px;
+    min-height: 100vh;
+    height: auto;
+}
+
+.glossary-main-content{
+    margin-left: 380px;
+    margin-right: 44px;
+    max-width: 800px;
+    padding-bottom: 4rem;
+}
+
+.glossary-section{
+    margin-bottom: 4rem;
+}
+
+.glossary-section-title{
+    font-size: var(--title-md);
+    font-weight: 500;
+    margin-bottom: 2rem;
+    color: var(--dark-bg);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.glossary-items{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.glossary-item{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.glossary-item-level-1{
+    margin-left: 0;
+}
+
+.glossary-item-level-2{
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.glossary-item-level-3{
+    margin-left: 3rem;
+    margin-top: 0.75rem;
+}
+
+.glossary-item-level-4{
+    margin-left: 4rem;
+    margin-top: 0.5rem;
+}
+
+.glossary-item-header{
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.glossary-item-number{
+    font-weight: 600;
+    color: var(--primary-color);
+    font-family: "geist mono", monospace;
+    flex-shrink: 0;
+}
+
+.glossary-item-title{
+    margin: 0;
+    font-weight: 500;
+    color: var(--dark-bg);
+}
+
+.glossary-item-level-1 .glossary-item-title{
+    font-size: var(--title-rg);
+}
+
+.glossary-item-level-2 .glossary-item-title{
+    font-size: 1.1rem;
+}
+
+.glossary-item-level-3 .glossary-item-title,
+.glossary-item-level-4 .glossary-item-title{
+    font-size: 1rem;
+}
+
+.glossary-item-description{
+    margin: 0.5rem 0 0 0;
+    line-height: 1.6;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.glossary-subitems{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-left: 1px solid var(--border-color);
+    padding-left: 1.5rem;
+    margin-left: 1rem;
+}

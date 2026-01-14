@@ -1,0 +1,52 @@
+[
+  {
+    "section": "I. POPULATION",
+    "items": [
+      {
+        "title": "Geography",
+        "description": "Used to note when geographical places have an influence on the research, or place is a feature of analysis. The specificity of geography tagged based on how the researchers define their scope of inquiry, (i.e. country vs. state vs. city). The United States is tagged only when in comparison to other areas in an effort to avoid overuse of geographical tags."
+      },
+      {
+        "title": "Demographics",
+        "subitems": [
+          {
+            "title": "Class",
+            "description": "social class and socioeconomic status (SES) as a category of analysis",
+            "subitems": [
+              {
+                "title": "Low income",
+                "description": "a specific class category that refers to individuals or communities living in poverty; can differ from the formal metrics used to determine if individuals or families, whose annual income falls under the federally/politically/governmentally determined poverty line, can be considered \"poor\"."
+              },
+              {
+                "title": "Middle-income / middle class",
+                "description": "a specific class category that refers to individuals, families, and/or communities whose wealth and resources are great enough to not be living in poverty but limited enough to not be considered wealthy. The class category is heavily reliant on geographical places and economies."
+              },
+              {
+                "title": "High-income / upper class",
+                "description": "individuals, families, and/or communities whose wealth and resources are significantly more than the middle class."
+              }
+            ]
+          },
+          {
+            "title": "Population density",
+            "description": "population density as a category of analysis",
+            "subitems": [
+              {
+                "title": "Urban",
+                "description": "land areas that are densely populated."
+              },
+              {
+                "title": "Suburban",
+                "description": "mainly residential land areas that are not densely populated compared to urban living and are a considerable distance from city living."
+              },
+              {
+                "title": "Rural",
+                "description": "land areas with very low population density with few buildings, homes, and infrastructure."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
