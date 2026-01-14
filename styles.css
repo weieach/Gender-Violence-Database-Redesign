@@ -251,7 +251,9 @@ h4{
     width: 100%;
     max-width: 384px;
     overflow: hidden;
-    background-color: #F4F0F4;
+    /* background-color: #F4F0F4; */
+    background-image: url("assets-gvd/blog-thumbnail-placeholder.png");
+    background-size: cover;
     justify-content: end;
 }
 
@@ -286,6 +288,11 @@ h4{
     display: flex;
     flex-direction: column;
     gap: 0.625rem;
+}
+
+.heading-caption{
+    color: black;
+    font-family: "geist";
 }
 
 .card-text h3{
