@@ -487,17 +487,10 @@ address{
     margin-top: 0.5rem;
 }
 
-.glossary-item-header{
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-}
-
 .glossary-item-number{
     font-weight: 600;
     color: var(--primary-color);
     font-family: "geist mono", monospace;
-    flex-shrink: 0;
 }
 
 .glossary-item-title{

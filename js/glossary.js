@@ -57,10 +57,7 @@ function renderItem(item, numberPath, level) {
     
     let html = `
         <div class="${itemClass}" id="${itemId}">
-            <div class="glossary-item-header">
-                <span class="glossary-item-number">${numberString}.</span>
-                <h${Math.min(level + 2, 6)} class="glossary-item-title">${escapeHtml(item.title)}</h${Math.min(level + 2, 6)}>
-            </div>
+            <h${Math.min(level + 2, 6)} class="glossary-item-title"><span class="glossary-item-number">${numberString}.</span> ${escapeHtml(item.title)}</h${Math.min(level + 2, 6)}>
     `;
     
     if (item.description) {
