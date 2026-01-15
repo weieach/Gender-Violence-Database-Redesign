@@ -30,6 +30,68 @@ function renderGlossary(sections) {
     }
 
     container.innerHTML = sections.map(section => renderSection(section)).join('');
+    
+    // Render sidebar navigation
+    renderSidebarNav(sections);
+}
+
+// Render sidebar navigation
+function renderSidebarNav(sections) {
+    const navContainer = document.getElementById('glossary-nav');
+    if (!navContainer) {
+        console.error('Glossary nav container not found');
+        return;
+    }
+
+    navContainer.innerHTML = sections.map((section, sectionIndex) => {
+        const itemCount = section.items.length;
+        const sectionTitle = escapeHtml(section.section);
+        
+        const itemsList = section.items.map((item, itemIndex) => {
+            const itemTitle = escapeHtml(item.title);
+            // Create the same ID format as used in renderItem
+            const itemId = `item-${itemIndex + 1}-1`;
+            return `<li class="glossary-nav-item"><a href="#${itemId}">${itemIndex + 1}. ${itemTitle}</a></li>`;
+        }).join('');
+        
+        return `
+            <div class="glossary-nav-section">
+                <button class="glossary-nav-section-header" data-section="${sectionIndex}">
+                    <span>${sectionTitle} (${itemCount})</span>
+                    <i class="ph ph-chevron-right"></i>
+                </button>
+                <ul class="glossary-nav-items">${itemsList}</ul>
+            </div>
+        `;
+    }).join('');
+    
+    // Add click handlers for expand/collapse
+    navContainer.querySelectorAll('.glossary-nav-section-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const section = header.closest('.glossary-nav-section');
+            const icon = header.querySelector('.ph');
+            
+            section.classList.toggle('expanded');
+            if (section.classList.contains('expanded')) {
+                icon.classList.remove('ph-chevron-right');
+                icon.classList.add('ph-chevron-down');
+            } else {
+                icon.classList.remove('ph-chevron-down');
+                icon.classList.add('ph-chevron-right');
+            }
+        });
+    });
+    
+    // Expand first section by default
+    const firstSection = navContainer.querySelector('.glossary-nav-section');
+    if (firstSection) {
+        firstSection.classList.add('expanded');
+        const firstIcon = firstSection.querySelector('.ph');
+        if (firstIcon) {
+            firstIcon.classList.remove('ph-chevron-right');
+            firstIcon.classList.add('ph-chevron-down');
+        }
+    }
 }
 
 // Format number array as hierarchical string (e.g., [1, 2, 3] -> "1.2.3")
