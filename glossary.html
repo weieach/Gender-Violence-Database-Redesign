@@ -46,20 +46,54 @@
                 <div class="sidebar">
                     <div class="sidebar-header">
                         <h1>Glossary</h1>
-                        <i class="ph ph-info"></i>
+                        <button type="button" class="glossary-info-btn icon-btn" aria-label="Glossary information">
+                            <i class="ph ph-info"></i>
+                        </button>
                     </div>
                     
-                    <div class="input-bar">
-                        <input placeholder="Search glossary..." type="text" id="glossary-search">
-                        <button type="submit"><i class="ph-bold ph-magnifying-glass"></i></button>
+                    <div class="input-bar glossary-search-bar">
+                        <input placeholder="Search glossary..." type="text" id="glossary-search" autocomplete="off">
+                        <button type="button" class="glossary-search-icon" aria-label="Search glossary">
+                            <i class="ph-bold ph-magnifying-glass"></i>
+                        </button>
+                        <div class="glossary-search-controls is-hidden" id="glossary-search-controls">
+                            <span class="glossary-search-count" id="glossary-search-count">0 of 0</span>
+                            <button type="button" class="glossary-search-btn" id="glossary-search-prev" aria-label="Previous match">
+                                <i class="ph ph-arrow-up"></i>
+                            </button>
+                            <button type="button" class="glossary-search-btn" id="glossary-search-next" aria-label="Next match">
+                                <i class="ph ph-arrow-down"></i>
+                            </button>
+                            <button type="button" class="glossary-search-btn" id="glossary-search-clear" aria-label="Clear search">
+                                <i class="ph ph-x"></i>
+                            </button>
+                        </div>
                     </div>
                     
                     <nav class="glossary-nav" id="glossary-nav">
                         <!-- Navigation will be rendered here by JavaScript -->
                     </nav>
                 </div>
-                <div class="glossary-main-content" id="glossary-content">
-                    <!-- Glossary content will be rendered here by JavaScript -->
+                <div class="container-glossary-main-content">
+                    <div class="glossary-main-content" id="glossary-content">
+                        <!-- Glossary content will be rendered here by JavaScript -->
+                    </div>
+                </div>
+                
+            </div>
+            <div class="glossary-modal is-hidden" id="glossary-info-modal" role="dialog" aria-modal="true"
+                aria-labelledby="glossary-info-title">
+                <div class="glossary-modal-content" role="document">
+                    <div class="glossary-modal-header">
+                        <h2 id="glossary-info-title">About GVD Glossary</h2>
+                        <button type="button" class="glossary-modal-close icon-btn" aria-label="Close glossary information">
+                            <i class="ph ph-x"></i>
+                        </button>
+                    </div>
+                    <p>This glossary defines terms used in the schema which guides the tagging process. The glossary
+                        functions as a way to define terms outside of where they fall in the organizational structure of
+                        the schema as well as to provide more information about what topics specific terms are
+                        encompassing.</p>
                 </div>
             </div>
 
