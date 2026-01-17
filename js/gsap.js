@@ -13,8 +13,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
   const aboutTitle = document.querySelector(".about-us-page h1");
   if (aboutTitle) {
     ScrollTrigger.create({
-      trigger: ".about-us-page",
-      start: "top 0px",
+      trigger: aboutTitle,
+      start: "top top+=160",
+      endTrigger: ".about-us-page",
       end: "bottom 100px",
       anticipatePin: 1,
       pin: aboutTitle,
