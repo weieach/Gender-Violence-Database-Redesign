@@ -14,10 +14,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
   if (aboutTitle) {
     ScrollTrigger.create({
       trigger: ".about-us-page",
-      start: "top top+=160",
+      start: "top 0px",
       end: "bottom 100px",
       anticipatePin: 1,
       pin: aboutTitle,
+      // markers: true,
+      pinSpacing: false
+    });
+  }
+
+  const blogsTitle = document.querySelector(".blogs-page h1");
+  if (blogsTitle) {
+    ScrollTrigger.create({
+      trigger: blogsTitle,
+      start: "top top+=160",
+      endTrigger: ".blogs-page",
+      end: "bottom 100px",
+      anticipatePin: 1,
+      pin: blogsTitle,
       // markers: true,
       pinSpacing: false
     });

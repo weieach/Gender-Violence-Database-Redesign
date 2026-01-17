@@ -1,9 +1,10 @@
-.about-us-page{
+.about-us-page, .resources-page, .blogs-page{
     display: flex;
     flex-direction: row;
     width: fit-content;
     margin-inline: auto;
     position: relative;
+    gap: 3rem;
 }
 
 .about-us-page-content{
@@ -12,9 +13,11 @@
 }
 
 
-.about-us-page h1{
+
+
+.about-us-page h1, .blogs-page h1{
     margin-bottom: 2rem;
-    width: 300px;
+    width: 240px;
     /* position: sticky;
     left: 0;
     top: 160px; */
@@ -35,7 +38,7 @@
     font-size: 1.4rem;
 }
 
-.about-us-page p{
+.about-us-page p, .blogs-page p, .blog-page p{
     margin-bottom: 1.2rem;
     hyphens: auto;
     hyphenate-limit-chars: 6 3 3;
@@ -52,10 +55,14 @@
 
 .quick-links-list{
     background-color: #F5F1F5;
+    background-image: url("assets-gvd/gvd-logo.png");
     padding: 1.6rem 2rem;
     list-style: none;
     color: var(--primary-color);
     border-radius: 1.2rem;
+    background-size: 220px;
+    background-repeat: no-repeat;
+    background-position: bottom -80px right -80px;
 }
 
 .quick-links-list li{
@@ -109,6 +116,20 @@
     padding: 0;
 }
 
+.resources-list h3{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.resource-logo{
+    width: 20px;
+    height: 20px;
+    /* border-radius: 6px; */
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
 .resources-list p{
     margin-bottom: 0.4rem;
 }
@@ -121,6 +142,14 @@
     text-decoration: underline;
 }
 
+.blog-description{
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    line-clamp: 4;
+    overflow: hidden;
+}
+
 .resources-list a::after{
     content: "";
 }
@@ -131,4 +160,160 @@
 
 .resources-list h3{
     margin-bottom: 0.5rem;
+}
+
+.resources-page .info-caption{
+    margin-bottom: 2.4rem;
+}
+
+.blogs-page{
+    padding-top: 160px;
+}
+
+.blogs-page-content{
+    max-width: 60ch;
+}
+
+.cards-blog-lg{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.card-blog-lg:hover, .card-blog:hover, .card-glossary:hover{
+    scale: 1.005;
+    transition: scale 0.2s ease-in-out;
+}
+
+
+.blogs-page .card-blog-lg{
+    border-radius: 2rem;
+    overflow: hidden;
+    border: 1px solid var(--border-color-light);
+}
+
+.blogs-page .blog-thumbnail{
+    width: 100%;
+    height: 240px;
+    background-image: url("assets-gvd/blog-thumbnail-placeholder.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    object-fit: cover;
+}
+
+.card-blog-lg .card-text{
+    padding: 1.5rem 2.2rem;
+    background-color: white;
+}
+
+.card-blog-lg .card-text hr{
+    margin-top: 0.7rem;
+    margin-bottom: 0.7rem;
+    border: 1px solid var(--border-color-light);
+}
+
+.card-blog-lg .blog-header{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.card-blog-lg .blog-title{
+    font-size: var(--title-md-rg);
+    display: flex;
+}
+
+.card-blog-lg .blog-header h3{
+    /* font-size: var(--title-); */
+}
+
+.card-blog-lg .blog-header p{
+    margin: 0;
+}
+
+.blog-page{
+    padding-top: 160px; /* for all the spacing between top of page & content, use padding instead of margin to avoid conflicts with smoother */
+    max-width: 65ch;
+    margin-inline: auto;
+}
+
+.blog-page h1{
+    margin-bottom: 1.8rem;
+}
+
+.blog-page h2{
+    margin-bottom: 1.5rem;
+}
+
+.blog-page hr{
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color-light);
+}
+
+.blog-page p{
+    opacity: 0.9;
+}
+
+.blog-page section{
+    margin-bottom: 3rem;
+}
+
+.btn-back-to-blogs{
+    position: fixed;
+    z-index: 100;
+    top: 160px;
+    left: 100px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    /* color: var(--primary-color); */
+    font-size: var(--title-sm);
+    margin-bottom: 2rem;
+}
+
+.btn-back-to-blogs a:hover{
+    text-decoration: underline;
+}
+
+.blog-page .blog-highlight{
+    font-size: var(--title-sm);
+    opacity: 0.9;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.bibliography-list li{
+    margin-bottom: 0.6rem;
+}
+
+
+.blog-page .blog-header{
+    font-family: "larken";
+    font-size: var(--title-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    /* color: var(--primary-color); */
+}
+
+.blog-author-container{
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.blog-author-avatar{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--border-color);
 }

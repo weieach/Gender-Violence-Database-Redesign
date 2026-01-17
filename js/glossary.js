@@ -329,8 +329,9 @@ function initGlossaryInfoModal() {
     const infoBtn = document.querySelector('.glossary-info-btn');
     const modal = document.getElementById('glossary-info-modal');
     const closeBtn = modal ? modal.querySelector('.glossary-modal-close') : null;
+    const doneBtn = modal ? modal.querySelector('.glossary-modal-done') : null;
 
-    if (!infoBtn || !modal || !closeBtn) {
+    if (!infoBtn || !modal || !closeBtn || !doneBtn) {
         return;
     }
 
@@ -344,6 +345,7 @@ function initGlossaryInfoModal() {
 
     infoBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
+    doneBtn.addEventListener('click', closeModal);
 
     modal.addEventListener('click', (event) => {
         if (event.target === modal) {

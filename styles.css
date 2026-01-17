@@ -8,10 +8,12 @@
     --bg-color: #FAF8FA;
     --primary-color: #883F8F;
     --border-color: #BDA7BF;
+    --border-color-light: #EBE4EA;
     --dark-bg: #5A285F;
     /* font size */
     --title-lg: 2.625rem;
     --title-md: 1.875rem;
+    --title-md-rg: 1.6rem;
     --title-rg: 1.25rem;
     --title-sm: 1rem;
 }
@@ -44,7 +46,7 @@ nav{
 .nav-left-half, .nav-right-half{
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2.2rem;
 }
 
 .logo-img{
@@ -58,16 +60,37 @@ nav .ph-magnifying-glass{
 }
 
 nav a{
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0;
     /* background-color: #825B84; */
 }
 
-.btn-get-help{
+nav a:hover:not(.primary-btn):not(.website-logo){
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+    /* border-radius: 2rem; */
+}
+
+.website-logo:hover{
+    scale: 1.01;
+    transition: scale 0.2s ease-in-out;
+}
+
+.primary-btn{
     background-color: var(--primary-color);
     padding: 10px 24px;
     color: var(--bg-color);
     border-radius: 2rem;
 }
+
+.primary-btn:hover{
+    background-color: var(--dark-bg);
+    transition: background-color 0.2s ease;
+}
+
+.primary-btn-search{
+    border-radius: 0;
+}
+
 
 h1, h2, h3, h4{
 
@@ -101,7 +124,7 @@ h4{
 }
 
 .dev-note{
-    color: orange;
+    color: rgb(255, 106, 0);
 }
 
 .div-screen{
@@ -268,7 +291,7 @@ h4{
 .card-glossary{
     display: flex;
     flex-direction: column;
-    border: 0.7px solid #BDA7BF;
+    border: 0.8px solid var(--border-color-light);
     border-radius: 1rem;
     width: 100%;
     max-width: 384px;
@@ -292,7 +315,7 @@ h4{
     height: 180px;
     width: 70vw;
     max-width: 580px;
-    border: 0.7px solid #BDA7BF;
+    border: 0.8px solid var(--border-color-light);
     background-color: white;
     
 }
@@ -813,6 +836,20 @@ address{
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+.glossary-modal-actions{
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.glossary-modal-done{
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding-inline: 3rem;
 }
 
 .glossary-item-level-1{
