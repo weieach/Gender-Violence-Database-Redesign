@@ -44,7 +44,7 @@ nav{
 .nav-left-half, .nav-right-half{
     display: flex;
     align-items: center;
-    gap: 2.5rem;
+    gap: 1rem;
 }
 
 .logo-img{
@@ -55,6 +55,11 @@ nav .ph-magnifying-glass{
     font-weight: 900;
     font-size: 1.1rem;
     color: var(--primary-color);
+}
+
+nav a{
+    padding: 0.5rem 0.75rem;
+    /* background-color: #825B84; */
 }
 
 .btn-get-help{
@@ -93,6 +98,10 @@ h4{
     font-size: var(--title-rg);
     font-weight: 450;
 
+}
+
+.dev-note{
+    color: orange;
 }
 
 .div-screen{
@@ -142,6 +151,7 @@ h4{
     display: flex;
     flex: 1;
     justify-content: space-between;
+    
     /* gap: 1.625rem; */
 }
 
@@ -167,12 +177,14 @@ h4{
 
 
 
-.input-bar button{
+.homescreen-center-ui .input-bar button{
     /* padding-inline: 1.2rem; */
     border: none;
     font-size: 1.4rem;
     background-color: var(--primary-color);
     color: white;
+    padding-inline: 1rem;
+    padding-right: 1.2rem;
 }
 
 .msg-scrolldown{
@@ -379,6 +391,11 @@ footer a{
 }
 
 .footer-contact a{
+    text-decoration: none;
+    /* color: #bf89c2; */
+}
+
+.footer-contact a:hover{
     text-decoration: underline;
     /* color: #bf89c2; */
 }
@@ -386,8 +403,8 @@ footer a{
 .contact-header{
     display: flex;
     align-items: center;
-    gap: 0.2rem;
-    margin-bottom: 0.2rem;
+    gap: 0.3rem;
+    margin-bottom: 0.4rem;
 }
 
 address{
@@ -468,6 +485,7 @@ address{
 }
 
 .glossary-search-bar{
+    
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -626,6 +644,7 @@ address{
 
 .glossary-search-icon{
     padding: 0;
+    font-size: 1.2rem;
 }
 
 .glossary-search-icon.is-hidden{
@@ -664,6 +683,11 @@ address{
 
 #glossary-search-next, #glossary-search-prev, #glossary-search-clear, .glossary-search-count{
     padding-inline: 5px;
+    
+}
+
+#glossary-search-next, #glossary-search-prev, #glossary-search-clear{
+    font-size: 1.2rem;
 }
 
 

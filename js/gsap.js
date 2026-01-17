@@ -1,16 +1,82 @@
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
+let smoother;
+
 document.addEventListener("DOMContentLoaded", (event) => {
-  
-  let smoother = ScrollSmoother.create({
+
+  smoother = ScrollSmoother.create({
     wrapper: "#smooth-wrapper",
     content: "#smooth-content",
     // smooth: 2
   });
 
+  const aboutTitle = document.querySelector(".about-us-page h1");
+  if (aboutTitle) {
+    ScrollTrigger.create({
+      trigger: ".about-us-page",
+      start: "top top+=160",
+      end: "bottom 100px",
+      anticipatePin: 1,
+      pin: aboutTitle,
+      // markers: true,
+      pinSpacing: false
+    });
+  }
 
+  const msgCaretDown = document.querySelector(".msg-scrolldown .ph-caret-down");
+  if (msgCaretDown) {
+    gsap.to(msgCaretDown, {
+      yPercent: 20,
+      duration: 0.7,
+      ease: "power2.in",
+      repeat: -1,
+      yoyo: true
+    });
+  }
 
+  const divMsgCaretDown = document.querySelector(".msg-scrolldown");
+  if (divMsgCaretDown) {
+    divMsgCaretDown.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (smoother) {
+        gsap.to(smoother, {
+          scrollTop: smoother.offset("#second-screen", "top top"),
+          duration: 1,
+          ease: "power2.out"
+        });
+      }
+    });
+  }
 
+  if (window.location.hash && smoother) {
+    const targetHash = window.location.hash;
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        gsap.to(smoother, {
+          scrollTop: smoother.offset(targetHash, "top top"),
+          duration: 1,
+          ease: "power2.out"
+        });
+      }, 0);
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest('a[href*="#"]');
+    if (!link) return;
+
+    const url = new URL(link.href, window.location.href);
+    const isSamePage = url.pathname === window.location.pathname;
+    const hasHash = url.hash && url.hash.length > 1;
+    if (!isSamePage || !hasHash || !smoother) return;
+
+    event.preventDefault();
+    gsap.to(smoother, {
+      scrollTop: smoother.offset(url.hash, "top top"),
+      duration: 1,
+      ease: "power2.out"
+    });
+  });
 });
 
 // snap to screen on scroll
@@ -24,29 +90,3 @@ document.addEventListener("DOMContentLoaded", (event) => {
 //     })
 // })
 
-
-let msgCaretDown = document.querySelectorAll(".msg-scrolldown .ph-caret-down");
-gsap.to(msgCaretDown, {
-  yPercent: 20,
-  duration: 1,
-  ease: "power2.in",
-  repeat: -1,
-  yoyo: true,
-  // repeatDelay: 1.5 
-});
-
-let divMsgCaretDown = document.querySelector(".msg-scrolldown");
-// let target = anchorMsgCaretDown.getAttribute("href"); 
-
-
-
-divMsgCaretDown.addEventListener("click", (e) => {
-  e.preventDefault();
-  smoother.scrollTo("#second-screen", true, "top center")
-//   gsap.to(smoother, {
-//     scrollTop: smoother.offset("#second-screen", "center center"),
-//     duration: 2, 
-//     ease: 'back.out'
-// })
-    // smoother.scrollTo(target, true, "bottom 90px");
-});

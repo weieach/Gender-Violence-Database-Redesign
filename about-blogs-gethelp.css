@@ -1,0 +1,134 @@
+.about-us-page{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    margin-inline: auto;
+    position: relative;
+}
+
+.about-us-page-content{
+    max-width: 60ch;
+    margin-top: 160px;
+}
+
+
+.about-us-page h1{
+    margin-bottom: 2rem;
+    width: 300px;
+    /* position: sticky;
+    left: 0;
+    top: 160px; */
+}
+
+.about-us-page h2:not(.quick-links-heading){
+    margin-bottom: 1.5rem;
+}
+
+.about-us-page h3{
+    margin-bottom: 1rem;
+    color: black;
+    font-size: 1.4rem;
+}
+
+.quick-links-heading{
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+}
+
+.about-us-page p{
+    margin-bottom: 1.2rem;
+    hyphens: auto;
+    hyphenate-limit-chars: 6 3 3;
+}
+
+.about-us-page ul{
+    margin-bottom: 2rem;
+    
+}
+
+.about-us-page section{
+    margin-bottom: 3rem;
+}
+
+.quick-links-list{
+    background-color: #F5F1F5;
+    padding: 1.6rem 2rem;
+    list-style: none;
+    color: var(--primary-color);
+    border-radius: 1.2rem;
+}
+
+.quick-links-list li{
+    margin-bottom: 0.2rem;
+}
+.quick-links-list a{
+    text-decoration: none;
+    color: var(--primary-color);
+    
+}
+
+.quick-links-list a:hover{
+    text-decoration: underline;
+}
+
+.timeline-list{
+    list-style-type: circle;
+}
+
+.timeline-list img{
+    width: 70%;
+    border-radius: 1rem;
+    margin-bottom: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+.timeline-list .img-caption{
+    width: 70%;
+    color: rgb(110, 110, 110);
+    margin-bottom: 1.5rem;
+}
+
+
+.member-list{
+    column-count: 2;
+    column-gap: 2rem;
+    padding: 0;
+    list-style: none;
+    
+    border-left: 2px solid var(--border-color);
+    padding-left: 2.5rem;
+}
+
+.about-us-page ul li{
+    break-inside: avoid;
+    margin-bottom: 0.6rem;
+}
+
+.resources-list{
+    list-style: none;
+    padding: 0;
+}
+
+.resources-list p{
+    margin-bottom: 0.4rem;
+}
+
+.resources-list a{
+    color: var(--primary-color);
+}
+
+.resources-list a:hover{
+    text-decoration: underline;
+}
+
+.resources-list a::after{
+    content: "";
+}
+
+.resources-page .resources-list li{
+    margin-bottom: 1.8rem;
+}
+
+.resources-list h3{
+    margin-bottom: 0.5rem;
+}
