@@ -18,10 +18,19 @@
     --title-sm: 1rem;
 }
 
+html{
+    color-scheme: light;
+}
+
 body {
     font-family: "geist", system-ui;
     margin: 0;
     background-color: var(--bg-color);
+    color: black;
+}
+
+p{
+    color: black;
 }
 
 a{
@@ -42,6 +51,8 @@ nav{
     background-color: var(--bg-color);
     /* border-bottom: 0.7px solid #e1d0e2; */
 }
+
+
 
 .nav-left-half, .nav-right-half{
     display: flex;
@@ -93,7 +104,7 @@ nav a:hover:not(.primary-btn):not(.website-logo){
 
 
 h1, h2, h3, h4{
-
+    color: black;
     font-family: "larken";
 }
 
@@ -198,7 +209,9 @@ h4{
     outline: none;
 }
 
-
+input{
+    background-color: white;
+}
 
 .homescreen-center-ui .input-bar button{
     /* padding-inline: 1.2rem; */
@@ -359,7 +372,7 @@ footer{
     gap: 2.7rem;
 }
 
-footer a{
+footer a, footer p{
     color: white;
 }
 
