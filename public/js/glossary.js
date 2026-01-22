@@ -3,10 +3,13 @@
  * Renders glossary data from JSON into HTML
  */
 
+
+
+
 // Fetch and render glossary data
 async function loadGlossary() {
     try {
-        const response = await fetch('data/glossary.json');
+        const response = await fetch('../data/glossary.json');
         if (!response.ok) {
             throw new Error('Failed to load glossary data');
         }
