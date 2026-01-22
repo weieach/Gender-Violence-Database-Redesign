@@ -11,6 +11,8 @@ export default defineConfig({
         glossary: "glossary.html",
         about: "about.html",
         resources: "resources.html",
+        blogsCollection: "blogs-collection/001-intro.html",
+        blogsCollection: "blogs-collection/002-critical-reflection.html",
         // add the rest here
       },
     },
