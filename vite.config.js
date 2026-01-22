@@ -7,6 +7,7 @@ export default defineConfig({
       input: {
         main: "index.html",
         browse: "browse.html",
+        blogs: "blogs.html",
         glossary: "glossary.html",
         about: "about.html",
         resources: "resources.html",
