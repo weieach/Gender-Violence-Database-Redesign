@@ -57,7 +57,7 @@ nav{
 .nav-left-half, .nav-right-half{
     display: flex;
     align-items: center;
-    gap: 2.2rem;
+    gap: 3rem;
 }
 
 .logo-img{
