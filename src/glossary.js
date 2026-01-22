@@ -3,18 +3,12 @@
  * Renders glossary data from JSON into HTML
  */
 
+import glossaryData from "./data/glossary.json";
 
-
-
-// Fetch and render glossary data
-async function loadGlossary() {
+// Render glossary data imported via Vite
+function loadGlossary() {
     try {
-        const response = await fetch('../data/glossary.json');
-        if (!response.ok) {
-            throw new Error('Failed to load glossary data');
-        }
-        const data = await response.json();
-        renderGlossary(data);
+        renderGlossary(glossaryData);
     } catch (error) {
         console.error('Error loading glossary:', error);
         const container = document.getElementById('glossary-content');
