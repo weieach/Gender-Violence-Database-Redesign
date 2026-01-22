@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender Violence Database</title>
+    <link rel="stylesheet" href="https://use.typekit.net/zhx3mim.css">
+    <link rel="icon" href="/Gender-Violence-Database-Redesign/assets/favicon-D98P_YSe.png">
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet">
+    <!-- phosphor icons -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+    <!-- gsap -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/responsive-BCBg5_A0.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-left-half">
+            <a href="index.html" class="website-logo"><img src="/Gender-Violence-Database-Redesign/assets/nav-logo-CaZHv8H4.png" class="logo-img" alt="logo-img"></a>
+            <a href="browse.html">Browse</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="glossary.html">Glossary</a>
+        </div>
+        <div class="nav-right-half">
+            <!-- <a href="browse.html"><i class="ph ph-magnifying-glass"></i></a> -->
+            <a href="about.html">About us</a>
+            <a href="resources.html" class="primary-btn">Get Help</a>
+        </div>
+    </nav>
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+            <div class="div-screen glossary-page">
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <h1>Glossary</h1>
+                        <button type="button" class="glossary-info-btn icon-btn" aria-label="Glossary information">
+                        <i class="ph ph-info"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="input-bar glossary-search-bar">
+                        <input placeholder="Search glossary..." type="text" id="glossary-search" autocomplete="off">
+                        <button type="button" class="glossary-search-icon" aria-label="Search glossary">
+                            <i class="ph-bold ph-magnifying-glass"></i>
+                        </button>
+                        <div class="glossary-search-controls is-hidden" id="glossary-search-controls">
+                            <span class="glossary-search-count" id="glossary-search-count">0 of 0</span>
+                            <button type="button" class="glossary-search-btn" id="glossary-search-prev" aria-label="Previous match">
+                                <i class="ph ph-arrow-up"></i>
+                            </button>
+                            <button type="button" class="glossary-search-btn" id="glossary-search-next" aria-label="Next match">
+                                <i class="ph ph-arrow-down"></i>
+                            </button>
+                            <button type="button" class="glossary-search-btn" id="glossary-search-clear" aria-label="Clear search">
+                                <i class="ph ph-x"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <nav class="glossary-nav" id="glossary-nav">
+                        <!-- Navigation will be rendered here by JavaScript -->
+                    </nav>
+                </div>
+                <div class="container-glossary-main-content">
+                    <div class="glossary-main-content" id="glossary-content">
+                        <!-- Glossary content will be rendered here by JavaScript -->
+                    </div>
+                </div>
+                
+            </div>
+            <div class="glossary-modal is-hidden" id="glossary-info-modal" role="dialog" aria-modal="true"
+                aria-labelledby="glossary-info-title">
+                <div class="glossary-modal-content" role="document">
+                    <div class="glossary-modal-header">
+                        <h2 id="glossary-info-title">About GVD Glossary</h2>
+                        <button type="button" class="glossary-modal-close icon-btn" aria-label="Close glossary information">
+                            <i class="ph ph-x"></i>
+                        </button>
+                    </div>
+                    <p>This glossary defines terms used in the schema which guides the tagging process. The glossary
+                        functions as a way to define terms outside of where they fall in the organizational structure of
+                        the schema as well as to provide more information about what topics specific terms are
+                        encompassing.</p>
+                    <div class="glossary-modal-actions">
+                        <button type="button" class="primary-btn glossary-modal-done">Done</button>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <div class="div-logo-copyright">
+                    <div>
+                        <img src="/Gender-Violence-Database-Redesign/assets/humanities%20workshop-D6aR0PMG.png" class="logo-humanities"
+                            alt="humanities digital workshop logo">
+                        <p>©2026 Washington University in St. Louis</p>
+                    </div>
+                    <img src="/Gender-Violence-Database-Redesign/assets/washu%20logo-LijmmuHy.png" class="logo-washu" alt="washu logo">
+                </div>
+                <div class="footer-menu">
+                    <ul class="footer-nav">
+                        <li><a href="browse.html">Browse database</a><i class="ph-bold ph-arrow-right"></i></li>
+                        <li><a href="blogs.html">Read blogs</a><i class="ph-bold ph-arrow-right"></i></li>
+                        <li><a href="glossary.html">View glossary</a><i class="ph-bold ph-arrow-right"></i></li>
+                        <li><a href="about.html">About GVD</a><i class="ph-bold ph-arrow-right"></i></li>
+                    </ul>
+                    <div class="footer-contact">
+                        <div class="contact-email">
+                            <p class="contact-header"><i class="ph ph-envelope-simple"></i>Email</p>
+                            <a href="mailto:genderviolencedatabase@gmail.com"
+                                target="_blank">genderviolencedatabase@gmail.com</a>
+                        </div>
+                        <div class="contact-address">
+                            <p class="contact-header"><i class="ph ph-house"></i>Address</p>
+                            <address>
+                                Washington University in St. Louis<br>
+                                Arts &amp; Sciences <br>
+                                St. Louis, MO
+                            </address>
+                        </div>
+
+                    </div>
+                    <div class="help-tip">
+                        <div class="card-text">
+                            <h3>Need Immediate Help?</h3>
+                            <p>Check our About section or Resources page for quick answers to common questions.</p>
+                        </div>
+                        <i class="ph-bold ph-arrow-right"></i>
+                    </div>
+                </div>
+            </footer>
+            <!-- gsap -->
+            <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
+            <!-- ScrollSmoother requires ScrollTrigger -->
+            <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollSmoother.min.js"></script>
+            <!-- <script src="js/gsap.js"></script> -->
+            <!-- glossary script -->
+            <script src="js/glossary.js"></script>
+            <!-- js script -->
+            <script src="js/script.js"></script>
+        </div>
+    </div>
+</body>
+
+</html>
