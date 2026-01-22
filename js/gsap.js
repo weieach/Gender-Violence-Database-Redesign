@@ -3,7 +3,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 let smoother;
 
 document.addEventListener("DOMContentLoaded", (event) => {
-
+  
   smoother = ScrollSmoother.create({
     wrapper: "#smooth-wrapper",
     content: "#smooth-content",
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   const msgCaretDown = document.querySelector(".msg-scrolldown .ph-caret-down");
   if (msgCaretDown) {
-    gsap.to(msgCaretDown, {
+  gsap.to(msgCaretDown, {
       yPercent: 20,
       duration: 0.7,
       ease: "power2.in",
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       setTimeout(() => {
         gsap.to(smoother, {
           scrollTop: smoother.offset(targetHash, "top top"),
-          duration: 1,
+    duration: 1,
           ease: "power2.out"
         });
       }, 0);
