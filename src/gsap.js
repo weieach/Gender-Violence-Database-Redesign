@@ -41,6 +41,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
   }
 
+  const controlPanel = document.querySelector(".control-panel");
+  const footer = document.querySelector("footer");
+  if (controlPanel && footer) {
+    const updateControlPanelOffset = () => {
+      const footerTop = footer.getBoundingClientRect().top;
+      const bottomOffset = window.innerHeight * 0.1;
+      const minGap = window.innerHeight * 0.05;
+      const currentBottom = window.innerHeight - bottomOffset;
+      const allowedBottom = Math.min(currentBottom, footerTop - minGap);
+      const delta = allowedBottom - currentBottom;
+      gsap.set(controlPanel, { y: Math.min(0, delta) });
+    };
+
+    ScrollTrigger.create({
+      trigger: footer,
+      start: "top bottom",
+      end: "bottom bottom",
+      onUpdate: updateControlPanelOffset,
+      onRefresh: updateControlPanelOffset
+    });
+
+    updateControlPanelOffset();
+    window.addEventListener("resize", updateControlPanelOffset);
+  }
+
   const msgCaretDown = document.querySelector(".msg-scrolldown .ph-caret-down");
   if (msgCaretDown) {
   gsap.to(msgCaretDown, {

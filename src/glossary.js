@@ -324,34 +324,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initGlossaryInfoModal() {
     const infoBtn = document.querySelector('.glossary-info-btn');
-    const modal = document.getElementById('glossary-info-modal');
-    const closeBtn = modal ? modal.querySelector('.glossary-modal-close') : null;
-    const doneBtn = modal ? modal.querySelector('.glossary-modal-done') : null;
+    const infoModal = document.getElementById('glossary-info-modal');
+    const closeBtn = infoModal ? infoModal.querySelector('.glossary-modal-close') : null;
+    const doneBtn = infoModal ? infoModal.querySelector('.glossary-modal-done') : null;
 
-    if (!infoBtn || !modal || !closeBtn || !doneBtn) {
-        return;
-    }
+    if (!infoBtn || !infoModal) return;
 
     const openModal = () => {
-        modal.classList.remove('is-hidden');
+        infoModal.classList.remove('is-hidden');
+        document.body.classList.add('modal-open');
     };
 
     const closeModal = () => {
-        modal.classList.add('is-hidden');
+        infoModal.classList.add('is-hidden');
+        document.body.classList.remove('modal-open');
     };
 
     infoBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    doneBtn.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (doneBtn) doneBtn.addEventListener('click', closeModal);
 
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
+    infoModal.addEventListener('click', (event) => {
+        if (event.target === infoModal) {
             closeModal();
         }
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && !modal.classList.contains('is-hidden')) {
+        if (event.key === 'Escape' && !infoModal.classList.contains('is-hidden')) {
             closeModal();
         }
     });

@@ -22,9 +22,9 @@
         href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <!-- gsap -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/glossary-9dtndx6D.js"></script>
-  <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-DKGkBfAs.js">
-  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-CJPHP75C.css">
+  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/script-QsVmIVPK.js"></script>
+  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/glossary-CUDEyueV.js"></script>
+  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-DvAV8CyP.css">
 </head>
 
 <body>
@@ -41,13 +41,56 @@
             <a href="resources.html" class="primary-btn">Get Help</a>
         </div>
     </nav>
+    <div class="control-panel">
+        <div class="control-panel-item">
+            <button class="control-panel-item-btn btn-contact">
+                <i class="ph-fill ph-chat-circle-dots"></i>
+
+            </button>
+            <p>Contact</p>
+        </div>
+        <div class="control-panel-item">
+            <a class="control-panel-item-btn btn-exit" href="https://www.google.com">
+                <i class="ph-bold ph-sign-out"></i>
+            </a>
+            <p>Exit site</p>
+        </div>
+    </div>
+    <div class="modal modal-contact is-hidden" id="contact-modal" role="dialog" aria-modal="true"
+        aria-labelledby="contact-title">
+        <div class="modal-content" role="document">
+            <div class="modal-header">
+                <h2 id="contact-title">Contact Us</h2>
+                <button type="button" class="modal-contact-close icon-btn" aria-label="Close contact information">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            <p class="modal-contact-caption">How can we help? Choose an option below and we’ll take it from there.</p>
+            <div class="modal-contact-options">
+                <div class="modal-contact-option">
+                    <button>
+                        <i class="ph-fill ph-gear"></i>
+                        <p>Website feedback</p>
+                    </button>
+                    
+                </div>
+                <div class="modal-contact-option">
+                    <button>
+                        <i class="ph ph-envelope-simple"></i>
+                        <p>General inquiries</p>
+                    </button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="smooth-wrapper">
         <div id="smooth-content">
             <div class="div-screen glossary-page">
                 <div class="sidebar">
                     <div class="sidebar-header">
                         <h1>Glossary</h1>
-                        <button type="button" class="glossary-info-btn icon-btn" aria-label="Glossary information">
+                        <button type="button" class="glossary-info-btn icon-btn" aria-label="Glossary information" aria-controls="glossary-info-modal">
                         <i class="ph ph-info"></i>
                         </button>
                     </div>
@@ -82,12 +125,12 @@
                 </div>
                 
             </div>
-            <div class="glossary-modal is-hidden" id="glossary-info-modal" role="dialog" aria-modal="true"
+            <div class="modal glossary-modal is-hidden" id="glossary-info-modal" role="dialog" aria-modal="true"
                 aria-labelledby="glossary-info-title">
-                <div class="glossary-modal-content" role="document">
-                    <div class="glossary-modal-header">
+                <div class="modal-content" role="document">
+                    <div class="modal-header">
                         <h2 id="glossary-info-title">About GVD Glossary</h2>
-                        <button type="button" class="glossary-modal-close icon-btn" aria-label="Close glossary information">
+                        <button type="button" class="modal-close glossary-modal-close icon-btn" aria-label="Close glossary information">
                             <i class="ph ph-x"></i>
                         </button>
                     </div>
@@ -95,8 +138,8 @@
                         functions as a way to define terms outside of where they fall in the organizational structure of
                         the schema as well as to provide more information about what topics specific terms are
                         encompassing.</p>
-                    <div class="glossary-modal-actions">
-                        <button type="button" class="primary-btn glossary-modal-done">Done</button>
+                    <div class="modal-actions glossary-modal-actions">
+                        <button type="button" class="primary-btn btn-modal-done glossary-modal-done">Done</button>
                     </div>
                 </div>
             </div>

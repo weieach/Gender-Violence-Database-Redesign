@@ -1,3 +1,11 @@
+@media (width < 1300px){
+    nav{
+        padding: 1.4vw 3vw;
+        padding-bottom: 0;
+        
+    }
+}
+
 @media (width < 1000px){
     .second-screen{
         flex-direction: column;
@@ -6,4 +14,6 @@
     .div-text-feature{
         order: -1;
     }
+
+    
 }
