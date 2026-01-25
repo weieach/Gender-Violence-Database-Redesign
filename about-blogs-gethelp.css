@@ -1,7 +1,8 @@
 .about-us-page, .resources-page, .blogs-page{
     display: flex;
     flex-direction: row;
-    width: fit-content;
+    width: 100%;
+    max-width: 1200px;
     margin-inline: auto;
     position: relative;
     gap: 3rem;
@@ -15,9 +16,9 @@
 
 
 
-.about-us-page h1, .blogs-page h1{
+.about-us-page h1, .blogs-page h1, .resources-page h1{
     margin-bottom: 2rem;
-    width: 240px;
+    width: 320px;
     /* position: sticky;
     left: 0;
     top: 160px; */
@@ -227,10 +228,6 @@
 .card-blog-lg .blog-title{
     font-size: var(--title-md-rg);
     display: flex;
-}
-
-.card-blog-lg .blog-header h3{
-    /* font-size: var(--title-); */
 }
 
 .card-blog-lg .blog-header p{

@@ -44,7 +44,7 @@ nav{
     align-items: center;
     justify-content: space-between;
     padding: 20px 44px;
-    padding-bottom: 4px;
+    padding-bottom: 0px;
     position: fixed;
     top: 0;
     width: 100vw;
@@ -617,6 +617,7 @@ address{
 
 .glossary-nav-section-header:hover{
     color: var(--primary-color);
+    /* padding: 0.9rem 0; */
 }
 
 /* right caret icon */
@@ -739,7 +740,7 @@ address{
     justify-content: center;
 }
 
-.glossary-page{
+.glossary-page, .browse-page{
     /* padding-top: 100px; */
     display: flex;
     align-items: flex-start;

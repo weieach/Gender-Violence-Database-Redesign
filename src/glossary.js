@@ -35,6 +35,7 @@ function renderGlossary(sections) {
     initGlossarySearch();
 }
 
+
 // Render sidebar navigation
 function renderSidebarNav(sections) {
     const navContainer = document.getElementById('glossary-nav');
