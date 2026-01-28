@@ -1,4 +1,3 @@
-const GLOSSARY_DATA_PATH = "/src/data/glossary.json";
 const BROWSE_SAMPLES_PATH = "/src/data/browse-samples.json";
 const TAG_SCHEMA_PATH = "/src/data/schema key name translation.csv";
 
@@ -80,6 +79,106 @@ function initBrowseNavInteractions(navContainer) {
     });
 }
 
+function renderBrowseNavFromSchema(nodes) {
+    const navContainer = document.getElementById('browse-nav');
+    if (!navContainer) {
+        return;
+    }
+
+    navContainer.innerHTML = nodes.map((node, index) => {
+        const sectionId = `schema-section-${index}`;
+        const hasChildren = node.children.length > 0;
+        const count = node.count;
+        const hasTagKey = Boolean(node.key);
+        const keySignature = hasTagKey ? makeKeySignature(node.allKeys || []) : '';
+        const isChecked = hasTagKey && activeTagSignatures.has(keySignature);
+        const headerHtml = hasChildren
+            ? `
+                <button type="button" class="browse-nav-toggle" aria-expanded="false" aria-controls="${sectionId}">
+                    <span class="browse-nav-toggle-content">
+                        ${hasTagKey ? `<input type="checkbox" class="browse-nav-checkbox-input" data-tag-keys="${escapeHtml(keySignature)}" ${isChecked ? 'checked' : ''}>` : ''}
+                        <span class="browse-nav-label">${escapeHtml(node.label)} <span class="browse-nav-count">(${count})</span></span>
+                    </span>
+                    <i class="ph-bold ph-caret-right"></i>
+                </button>
+            `
+            : `
+                <div class="browse-nav-leaf">
+                    ${hasTagKey ? `
+                        <label class="browse-nav-checkbox">
+                            <input type="checkbox" class="browse-nav-checkbox-input" data-tag-keys="${escapeHtml(keySignature)}" ${isChecked ? 'checked' : ''}>
+                            <span class="browse-nav-label">${escapeHtml(node.label)} <span class="browse-nav-count">(${count})</span></span>
+                        </label>
+                    ` : `
+                        <span class="browse-nav-label">${escapeHtml(node.label)} <span class="browse-nav-count">(${count})</span></span>
+                    `}
+                </div>
+            `;
+
+        return `
+            <div class="browse-nav-section">
+                ${headerHtml}
+                ${hasChildren ? `<div class="browse-nav-children" id="${sectionId}">${renderSchemaChildren(node.children)}</div>` : ''}
+            </div>
+        `;
+    }).join('');
+
+    initBrowseNavInteractions(navContainer);
+    initTagFilterInputs(navContainer);
+}
+
+function renderSchemaChildren(children) {
+    return children.map((child, index) => {
+        const childId = `schema-node-${child.key || 'label'}-${index}`;
+        const hasChildren = child.children.length > 0;
+        const label = escapeHtml(child.label);
+        const count = child.count;
+        const hasTagKey = Boolean(child.key);
+        const keySignature = hasTagKey ? makeKeySignature(child.allKeys || []) : '';
+        const isChecked = hasTagKey && activeTagSignatures.has(keySignature);
+
+        return `
+            <div class="browse-nav-item">
+                ${hasChildren ? `
+                    <button type="button" class="browse-nav-toggle browse-nav-item-toggle" aria-expanded="false" aria-controls="${childId}">
+                        <span class="browse-nav-toggle-content">
+                            ${hasTagKey ? `<input type="checkbox" class="browse-nav-checkbox-input" data-tag-keys="${escapeHtml(keySignature)}" ${isChecked ? 'checked' : ''}>` : ''}
+                            <span class="browse-nav-label">${label} <span class="browse-nav-count">(${count})</span></span>
+                        </span>
+                        <i class="ph-bold ph-caret-right"></i>
+                    </button>
+                    <div class="browse-nav-children" id="${childId}">
+                        ${renderSchemaChildren(child.children)}
+                    </div>
+                ` : `
+                    <div class="browse-nav-leaf">
+                        ${hasTagKey ? `
+                            <label class="browse-nav-checkbox">
+                                <input type="checkbox" class="browse-nav-checkbox-input" data-tag-keys="${escapeHtml(keySignature)}" ${isChecked ? 'checked' : ''}>
+                                <span class="browse-nav-label">${label}</span>
+                            </label>
+                        ` : `
+                            <span class="browse-nav-label">${label}</span>
+                        `}
+                    </div>
+                `}
+            </div>
+        `;
+    }).join('');
+}
+
+function initTagFilterInputs(navContainer) {
+    const inputs = Array.from(navContainer.querySelectorAll('.browse-nav-checkbox-input'));
+    inputs.forEach((input) => {
+        input.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+        input.addEventListener('change', () => {
+            updateActiveTagFilters();
+        });
+    });
+}
+
 function formatNumber(numberPath) {
     return numberPath.join('.');
 }
@@ -102,6 +201,13 @@ let tagLabelMap = new Map();
 const ITEMS_PER_PAGE = 10;
 let allEntries = [];
 let currentPage = 1;
+let schemaTree = [];
+let filteredEntries = [];
+let activeTagFilters = [];
+let activeTagSignatures = new Set();
+let activeTagSelections = [];
+let entryLookup = new Map();
+const bookmarkedEntries = new Map();
 
 document.addEventListener('DOMContentLoaded', () => {
     initBrowsePage();
@@ -111,23 +217,23 @@ async function initBrowsePage() {
     try {
         const schemaCsv = await fetchText(TAG_SCHEMA_PATH);
         tagLabelMap = buildTagLabelMap(schemaCsv);
+        schemaTree = buildSchemaTree(schemaCsv);
+        renderBrowseNavFromSchema(schemaTree);
+        initActiveTagPills();
+        renderActiveTagPills();
     } catch (error) {
         console.error("Tag schema fetch failed:", error);
         tagLabelMap = new Map();
     }
 
-    try {
-        const glossaryData = await fetchJson(GLOSSARY_DATA_PATH);
-        renderBrowseNav(glossaryData);
-    } catch (error) {
-        console.error("Glossary fetch failed:", error);
-    }
-
+    initBookmarkUI();
+    initSearchResults();
     await loadBrowseEntries();
 }
 
 async function loadBrowseEntries() {
     try {
+        setBrowseLoading(true);
         const [zoteroCollections, zoteroItems] = await Promise.all([
             fetchZoteroCollections(),
             fetchZoteroItems()
@@ -149,10 +255,12 @@ async function loadBrowseEntries() {
         console.info("[Zotero] items:", zoteroItems.length, "rendered:", mappedEntries.length);
         console.info("[Zotero] unique journals:", uniqueJournals.size);
         renderBrowseEntries(mappedEntries);
+        setBrowseLoading(false);
     } catch (error) {
         console.error("Zotero fetch failed, using samples:", error);
         const sampleEntries = await fetchJson(BROWSE_SAMPLES_PATH);
         renderBrowseEntries(sampleEntries);
+        setBrowseLoading(false);
     }
 }
 
@@ -245,14 +353,19 @@ function mapZoteroItem(item, collectionMap) {
 
     const openAccess = resolveOpenAccess(data, tags);
 
+    const tagValues = [
+        ...tags.map((tag) => (typeof tag === "string" ? tag : tag.tag)).filter(Boolean),
+        ...collectionNames,
+        journal
+    ].filter(Boolean);
+
+    const uniqueTags = Array.from(new Set(tagValues));
+
     return {
         title: data.title || "Untitled",
         journal: journal,
         author: authors,
-        tag: [
-            ...tags.map((tag) => (typeof tag === "string" ? tag : tag.tag)).filter(Boolean),
-            ...collectionNames
-        ],
+        tag: uniqueTags,
         brief: data.abstractNote || "",
         open_access: openAccess,
         url: url
@@ -336,17 +449,27 @@ function formatCreatorName(creator) {
 
 function renderBrowseEntries(entries) {
     allEntries = Array.isArray(entries) ? entries : [];
+    entryLookup = new Map(allEntries.map((entry) => [makeEntryId(entry), entry]));
     currentPage = 1;
-    renderBrowsePage();
+    if (schemaTree.length) {
+        const tagCounts = buildTagCounts(allEntries);
+        applyTagCounts(schemaTree, tagCounts);
+        renderBrowseNavFromSchema(schemaTree);
+    }
+    renderJournalFilters(allEntries);
+    updateFilteredEntries();
+    updateSearchResults();
 }
 
 function renderBrowseEntry(entry) {
+    const entryId = makeEntryId(entry);
+    const isBookmarked = bookmarkedEntries.has(entryId);
     const titleHtml = entry.url
         ? `<a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.title)}</a>`
         : `<span>${escapeHtml(entry.title)}</span>`;
 
     const journalHtml = entry.journal
-        ? `<h4 class="entry-journal">Journal: ${escapeHtml(entry.journal)}</h4>`
+        ? `<h4 class="entry-journal">Journal: <button type="button" class="entry-journal-btn" data-journal-signature="${escapeHtml(makeKeySignature([entry.journal]))}">${escapeHtml(entry.journal)}</button></h4>`
         : '';
 
     const authorHtml = entry.author
@@ -356,9 +479,9 @@ function renderBrowseEntry(entry) {
     const tagHtml = renderEntryTags(entry);
 
     return `
-        <div class="database-entry">
-            <button class="btn-bookmark" type="button" aria-label="Bookmark article">
-                <i class="ph-bold ph-bookmark-simple"></i>
+        <div class="database-entry" data-entry-id="${escapeHtml(encodeURIComponent(entryId))}">
+            <button class="btn-bookmark ${isBookmarked ? 'is-active' : ''}" type="button" aria-label="Bookmark article">
+                <i class="${isBookmarked ? 'ph-fill' : 'ph-bold'} ph-bookmark-simple"></i>
             </button>
             <div class="database-entry-text">
                 <h3>${titleHtml}</h3>
@@ -380,18 +503,27 @@ function renderBrowsePage() {
 
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     const end = start + ITEMS_PER_PAGE;
-    const pageEntries = allEntries.slice(start, end);
+    const pageEntries = filteredEntries.slice(start, end);
 
     container.innerHTML = pageEntries.map((entry) => renderBrowseEntry(entry)).join('');
     initTagExpanders(container);
+    initEntryBookmarks(container);
+    initJournalButtons(container);
+    initEntryTagClicks(container);
     renderPagination();
+}
+
+function setBrowseLoading(isLoading) {
+    const loading = document.getElementById('browse-loading');
+    if (!loading) return;
+    loading.classList.toggle('is-hidden', !isLoading);
 }
 
 function renderPagination() {
     const pagination = document.getElementById('browse-pagination');
     if (!pagination) return;
 
-    const totalPages = Math.ceil(allEntries.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(filteredEntries.length / ITEMS_PER_PAGE);
     if (totalPages <= 1) {
         pagination.innerHTML = '';
         return;
@@ -417,7 +549,7 @@ function renderPagination() {
     pagination.querySelectorAll('[data-page]').forEach((button) => {
         button.addEventListener('click', () => {
             const target = button.getAttribute('data-page');
-            const total = Math.ceil(allEntries.length / ITEMS_PER_PAGE);
+            const total = Math.ceil(filteredEntries.length / ITEMS_PER_PAGE);
 
             if (target === 'first') currentPage = 1;
             else if (target === 'prev') currentPage = Math.max(1, currentPage - 1);
@@ -450,7 +582,8 @@ function renderEntryTags(entry) {
 
     tags.forEach((tag) => {
         const label = mapTagLabel(tag);
-        tagItems.push(`<div class="entry-tag">${escapeHtml(label)}</div>`);
+        const signature = makeKeySignature([label]);
+        tagItems.push(`<button type="button" class="entry-tag entry-tag-btn" data-tag-signature="${escapeHtml(signature)}">${escapeHtml(label)}</button>`);
     });
 
     if (tagItems.length === 0) {
@@ -492,6 +625,358 @@ function initTagExpanders(container) {
             }
         });
     });
+}
+
+function initSearchResults() {
+    const input = document.getElementById('browse-search-input');
+    const results = document.getElementById('browse-search-results');
+    if (!input || !results) return;
+
+    input.addEventListener('input', () => {
+        updateSearchResults();
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!(event.target instanceof Node)) return;
+        if (!results.contains(event.target) && event.target !== input) {
+            results.classList.add('is-hidden');
+        }
+    });
+}
+
+function updateSearchResults() {
+    const input = document.getElementById('browse-search-input');
+    const results = document.getElementById('browse-search-results');
+    if (!input || !results) return;
+
+    const query = input.value.trim().toLowerCase();
+    if (!query) {
+        results.classList.add('is-hidden');
+        results.innerHTML = '';
+        return;
+    }
+
+    const matches = allEntries
+        .map((entry) => ({ entry, score: scoreEntryMatch(entry, query) }))
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 6)
+        .map((item) => item.entry);
+
+    if (!matches.length) {
+        results.innerHTML = '<div class="browse-search-result">No results found.</div>';
+        results.classList.remove('is-hidden');
+        return;
+    }
+
+    results.innerHTML = matches.map((entry) => {
+        const journal = entry.journal ? escapeHtml(entry.journal) : 'Journal';
+        const title = escapeHtml(entry.title);
+        const url = entry.url ? escapeHtml(entry.url) : '';
+        return `
+            <div class="browse-search-result" data-entry-url="${url}">
+                <div class="browse-search-result-title">${title}</div>
+                <div class="browse-search-result-meta">${journal}</div>
+            </div>
+        `;
+    }).join('');
+
+    results.classList.remove('is-hidden');
+
+    results.querySelectorAll('.browse-search-result').forEach((result) => {
+        result.addEventListener('click', () => {
+            const url = result.getAttribute('data-entry-url');
+            if (url) {
+                window.open(url, '_blank', 'noopener');
+                return;
+            }
+            results.classList.add('is-hidden');
+        });
+    });
+}
+
+function scoreEntryMatch(entry, query) {
+    let score = 0;
+    if (!entry) return score;
+    const title = (entry.title || '').toLowerCase();
+    const journal = (entry.journal || '').toLowerCase();
+    const author = (entry.author || '').toLowerCase();
+    const tags = Array.isArray(entry.tag) ? entry.tag.join(' ').toLowerCase() : '';
+
+    if (title.includes(query)) score += 3;
+    if (journal.includes(query)) score += 2;
+    if (author.includes(query)) score += 1;
+    if (tags.includes(query)) score += 1;
+    return score;
+}
+
+function initEntryBookmarks(container) {
+    const buttons = Array.from(container.querySelectorAll('.btn-bookmark'));
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const entryEl = button.closest('.database-entry');
+            if (!entryEl) return;
+            const entryId = decodeURIComponent(entryEl.getAttribute('data-entry-id') || '');
+            if (!entryId) return;
+
+            if (bookmarkedEntries.has(entryId)) {
+                bookmarkedEntries.delete(entryId);
+            } else {
+                const entry = entryLookup.get(entryId);
+                if (entry) {
+                    bookmarkedEntries.set(entryId, entry);
+                }
+            }
+
+            renderBookmarks();
+            renderBrowsePage();
+        });
+    });
+}
+
+function initJournalButtons(container) {
+    const buttons = Array.from(container.querySelectorAll('.entry-journal-btn'));
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const signature = button.getAttribute('data-journal-signature');
+            if (!signature) return;
+            const input = document.querySelector(`.browse-nav-checkbox-input[data-tag-keys="${signature}"]`);
+            if (input) {
+                input.checked = true;
+                updateActiveTagFilters();
+            }
+        });
+    });
+}
+
+function initEntryTagClicks(container) {
+    const buttons = Array.from(container.querySelectorAll('.entry-tag-btn'));
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const signature = button.getAttribute('data-tag-signature');
+            if (!signature) return;
+            const input = document.querySelector(`.browse-nav-checkbox-input[data-tag-keys="${signature}"]`);
+            if (input) {
+                input.checked = true;
+                updateActiveTagFilters();
+                return;
+            }
+
+            const activeContainer = document.getElementById('browse-active-tags');
+            if (!activeContainer) return;
+            if (activeTagSignatures.has(signature)) return;
+            activeTagSignatures.add(signature);
+            activeTagFilters.push(signature.split('|').filter(Boolean));
+            activeTagSelections.push({ label: button.textContent.trim(), signature });
+            renderActiveTagPills();
+            updateFilteredEntries();
+        });
+    });
+}
+
+function initBookmarkUI() {
+    const toggle = document.getElementById('bookmark-toggle');
+    const panel = document.getElementById('bookmark-panel');
+    const closeBtn = document.getElementById('bookmark-close');
+
+    if (!toggle || !panel) return;
+
+    toggle.addEventListener('click', () => {
+        panel.classList.toggle('is-hidden');
+        renderBookmarks();
+    });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            panel.classList.add('is-hidden');
+        });
+    }
+}
+
+function renderBookmarks() {
+    const list = document.getElementById('bookmark-list');
+    if (!list) return;
+
+    if (bookmarkedEntries.size === 0) {
+        list.innerHTML = '<p class="bookmark-empty">No bookmarks yet.</p>';
+        return;
+    }
+
+    const items = Array.from(bookmarkedEntries.values());
+    list.innerHTML = items.map((entry) => {
+        const title = entry.url
+            ? `<a href="${escapeHtml(entry.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.title)}</a>`
+            : `<span>${escapeHtml(entry.title)}</span>`;
+        const journal = entry.journal ? `Journal: ${escapeHtml(entry.journal)}` : '';
+        const entryId = makeEntryId(entry);
+        return `
+            <div class="bookmark-item">
+                <button type="button" class="bookmark-remove" data-entry-id="${escapeHtml(encodeURIComponent(entryId))}" aria-label="Remove bookmark">
+                    <i class="ph-fill ph-bookmark-simple"></i>
+                </button>
+                <div class="bookmark-item-content">
+                    ${title}
+                    ${journal ? `<p>${journal}</p>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    list.querySelectorAll('.bookmark-remove').forEach((button) => {
+        button.addEventListener('click', () => {
+            const entryId = decodeURIComponent(button.getAttribute('data-entry-id') || '');
+            if (!entryId) return;
+            bookmarkedEntries.delete(entryId);
+            renderBookmarks();
+            renderBrowsePage();
+        });
+    });
+}
+
+function makeEntryId(entry) {
+    const parts = [
+        entry.title || '',
+        entry.author || '',
+        entry.journal || '',
+        entry.url || ''
+    ];
+    return parts.join('||').toLowerCase();
+}
+
+function updateActiveTagFilters() {
+    const inputs = Array.from(document.querySelectorAll('.browse-nav-checkbox-input'));
+    activeTagFilters = [];
+    activeTagSignatures = new Set();
+    activeTagSelections = [];
+
+    inputs.forEach((input) => {
+        if (!input.checked) return;
+        const keySignature = input.getAttribute('data-tag-keys') || '';
+        const keys = keySignature.split('|').map((key) => key.trim()).filter(Boolean);
+        if (!keys.length) return;
+        activeTagFilters.push(keys);
+        activeTagSignatures.add(makeKeySignature(keys));
+
+        const labelEl = input.closest('.browse-nav-toggle-content')?.querySelector('.browse-nav-label')
+            || input.closest('.browse-nav-checkbox')?.querySelector('.browse-nav-label');
+        const labelText = labelEl ? labelEl.textContent.replace(/\(\d+\)\s*$/, '').trim() : '';
+        if (labelText) {
+            activeTagSelections.push({ label: labelText, signature: makeKeySignature(keys) });
+        }
+    });
+
+    renderActiveTagPills();
+    renderActiveTagPills();
+    updateFilteredEntries();
+}
+
+function updateFilteredEntries() {
+    if (!activeTagFilters.length) {
+        filteredEntries = allEntries;
+    } else {
+        filteredEntries = allEntries.filter((entry) => entryMatchesFilters(entry));
+    }
+    currentPage = 1;
+    renderBrowsePage();
+}
+
+function entryMatchesFilters(entry) {
+    const entryTags = new Set(getNormalizedEntryTags(entry));
+    return activeTagFilters.every((filterKeys) => {
+        return filterKeys.some((key) => entryTags.has(key));
+    });
+}
+
+function getNormalizedEntryTags(entry) {
+    const tags = Array.isArray(entry.tag) ? entry.tag : [];
+    return tags.map((tag) => normalizeTag(tag)).filter(Boolean);
+}
+
+function makeKeySignature(keys) {
+    const normalized = Array.from(new Set(keys.map((key) => normalizeTag(key)).filter(Boolean))).sort();
+    return normalized.join('|');
+}
+
+function initActiveTagPills() {
+    const container = document.getElementById('browse-active-tags');
+    if (!container) return;
+
+    container.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        const clearButton = target.closest('.active-tag-clear');
+        if (clearButton) {
+            const inputs = document.querySelectorAll('.browse-nav-checkbox-input');
+            inputs.forEach((input) => {
+                input.checked = false;
+            });
+            updateActiveTagFilters();
+            return;
+        }
+        const button = target.closest('.active-tag-remove');
+        if (!button) return;
+        const signature = button.getAttribute('data-tag-signature');
+        if (!signature) return;
+
+        const inputs = document.querySelectorAll(`.browse-nav-checkbox-input[data-tag-keys="${signature}"]`);
+        inputs.forEach((input) => {
+            input.checked = false;
+        });
+        updateActiveTagFilters();
+    });
+}
+
+function renderActiveTagPills() {
+    const container = document.getElementById('browse-active-tags');
+    if (!container) return;
+
+    if (!activeTagSelections.length) {
+        container.innerHTML = '<span class="active-tag-empty">No tag yet</span>';
+        return;
+    }
+
+    const chips = activeTagSelections.map((selection) => {
+        return `
+            <span class="active-tag-chip">
+                ${escapeHtml(selection.label)}
+                <button type="button" class="active-tag-remove" data-tag-signature="${escapeHtml(selection.signature)}" aria-label="Remove ${escapeHtml(selection.label)}">
+                    <i class="ph ph-x"></i>
+                </button>
+            </span>
+        `;
+    }).join('');
+
+    container.innerHTML = `
+        ${chips}
+        <button type="button" class="active-tag-clear" id="active-tag-clear">Clear</button>
+    `;
+}
+
+function renderJournalFilters(entries) {
+    const container = document.getElementById('browse-journal-tags');
+    if (!container) return;
+
+    const journals = Array.from(
+        new Set(entries.map((entry) => entry.journal).filter(Boolean))
+    ).sort((a, b) => a.localeCompare(b));
+
+    if (!journals.length) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = journals.map((journal) => {
+        const signature = makeKeySignature([journal]);
+        const isChecked = activeTagSignatures.has(signature);
+        return `
+            <label class="browse-nav-checkbox browse-journal-checkbox">
+                <input type="checkbox" class="browse-nav-checkbox-input" data-tag-keys="${escapeHtml(signature)}" ${isChecked ? 'checked' : ''}>
+                <span class="browse-nav-label">${escapeHtml(journal)}</span>
+            </label>
+        `;
+    }).join('');
+
+    initTagFilterInputs(container);
 }
 
 async function fetchJson(path) {
@@ -598,4 +1083,110 @@ function parseCsv(text) {
     }
 
     return rows;
+}
+
+function buildSchemaTree(csvText) {
+    const rows = parseCsv(csvText);
+    if (rows.length <= 1) return [];
+
+    const header = rows[0].map((cell) => cell.trim().toLowerCase());
+    const levelIndex = header.indexOf('level');
+    const tagIndex = header.indexOf('tag name');
+    const labelIndex = header.indexOf('label');
+
+    if (levelIndex === -1 || labelIndex === -1) return [];
+
+    const root = { level: -1, children: [] };
+    const stack = [root];
+
+    rows.slice(1).forEach((row) => {
+        const levelValue = row[levelIndex] ? row[levelIndex].trim() : '';
+        if (!levelValue) return;
+        const level = Number(levelValue);
+        if (Number.isNaN(level)) return;
+
+        const key = row[tagIndex] ? row[tagIndex].trim() : '';
+        const label = row[labelIndex] ? row[labelIndex].trim() : '';
+        if (!label) return;
+
+        const node = {
+            level,
+            key,
+            label,
+            children: [],
+            count: 0
+        };
+
+        while (stack.length && stack[stack.length - 1].level >= level) {
+            stack.pop();
+        }
+
+        const parent = stack[stack.length - 1] || root;
+        parent.children.push(node);
+        stack.push(node);
+    });
+
+    const updateCounts = (node) => {
+        if (!node.children.length) {
+            node.count = 0;
+            return node.count;
+        }
+        node.count = node.children.reduce((sum, child) => sum + updateCounts(child) + 1, 0);
+        return node.count;
+    };
+
+    root.children.forEach((node) => updateCounts(node));
+    root.children.forEach((node) => assignAllKeys(node));
+
+    return root.children;
+}
+
+function assignAllKeys(node) {
+    const keys = new Set();
+    if (node.key) {
+        keys.add(normalizeTag(node.key));
+    }
+    if (node.label) {
+        keys.add(normalizeTag(node.label));
+    }
+    node.children.forEach((child) => {
+        const childKeys = assignAllKeys(child);
+        childKeys.forEach((key) => keys.add(key));
+    });
+    node.allKeys = Array.from(keys).filter(Boolean);
+    return node.allKeys;
+}
+
+function buildTagCounts(entries) {
+    const counts = new Map();
+    entries.forEach((entry) => {
+        const tags = Array.isArray(entry.tag) ? entry.tag : [];
+        tags.forEach((tag) => {
+            const normalized = normalizeTag(tag);
+            if (!normalized) return;
+            counts.set(normalized, (counts.get(normalized) || 0) + 1);
+        });
+    });
+    return counts;
+}
+
+function applyTagCounts(nodes, tagCounts) {
+    const compute = (node) => {
+        let ownCount = 0;
+        if (node.key) {
+            ownCount = tagCounts.get(normalizeTag(node.key)) || 0;
+        } else {
+            ownCount = tagCounts.get(normalizeTag(node.label)) || 0;
+        }
+
+        let childrenCount = 0;
+        node.children.forEach((child) => {
+            childrenCount += compute(child);
+        });
+
+        node.count = ownCount + childrenCount;
+        return node.count;
+    };
+
+    nodes.forEach((node) => compute(node));
 }

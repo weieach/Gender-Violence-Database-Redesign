@@ -12,10 +12,196 @@ nav{
     border-bottom: 0.9px solid #e1d0e2;
     z-index: 50;
     background-color: var(--bg-color);
-    width: 100vw;
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    left: 0;
+    right: 0;
     height: 200px;
-    padding-inline: 2.75rem;
+    padding-inline: 0;
     padding-bottom: 1.5rem;
+}
+
+.browse-search-wrap{
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+}
+
+.browse-header .input-bar{
+    position: relative;
+    overflow: hidden;
+}
+
+.browse-search-results{
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color-light);
+    border-radius: 0.8rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem;
+    z-index: 55;
+}
+
+.browse-search-results.is-hidden{
+    display: none;
+}
+
+.browse-search-result{
+    display: block;
+    padding: 0.5rem 0.6rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+}
+
+.browse-search-result:hover{
+    background-color: rgba(235, 228, 234, 0.7);
+}
+
+.browse-search-result-title{
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.browse-search-result-meta{
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.bookmark-toggle{
+    /* border: 1px solid var(--border-color-light); */
+    border: none;
+    background: none;
+    /* background-color: #F3ECF4; */
+    /* color: var(--dark-bg); */
+    border-radius: 0.6rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    cursor: pointer;
+}
+
+.bookmark-toggle:hover{
+    /* border-color: var(--primary-color); */
+    background-color: #f4f3f4;
+    /* color: var(--primary-color); */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.bookmark-panel{
+    position: fixed;
+    top: 220px;
+    right: 2.75rem;
+    width: 320px;
+    overflow-y: scroll;
+    max-height: 40vh;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color-light);
+    border-radius: 0.9rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
+    padding: 0;
+    padding-bottom: 1.5rem;
+    z-index: 60;
+}
+
+.bookmark-panel.is-hidden{
+    display: none;
+}
+
+.bookmark-panel-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-color);
+    padding-top: 1rem;
+    padding-inline: 1rem;
+    margin-top: 0;
+    z-index: 1;
+    padding-bottom: 0.6rem;
+    /* padding: 0.8rem 1rem 1rem; */
+}
+
+.bookmark-panel-header h3{
+    font-size: 1rem;
+    font-family: "geist";
+    color: black;
+    margin: 0;
+}
+
+.bookmark-close{
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--dark-bg);
+    font-size: 1.1rem;
+}
+
+.bookmark-list{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-inline: 1.2rem;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.bookmark-item{
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color-light);
+}
+
+.bookmark-item:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.bookmark-item i{
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.bookmark-remove{
+    border: none;
+    background: none;
+    padding: 0.2rem;
+    cursor: pointer;
+}
+
+.bookmark-remove:hover{
+    background-color: #F5F1F5;
+    border-radius: 0.1rem;
+}
+
+.bookmark-item-content{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.bookmark-item a{
+    font-size: 0.9rem;
+    /* color: var(--dark-bg); */
+    font-weight: 500;
+}
+
+.bookmark-item p{
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 0.2rem;
+}
+
+.bookmark-empty{
+    font-size: 0.9rem;
+    opacity: 0.7;
 }
 
 
@@ -52,14 +238,77 @@ nav{
 .browse-tags-nav{
     position: relative;
     padding: 0;
-    padding-inline: 20px;
+    padding-inline: 24px;
     display: flex;
     flex-direction: column;
     gap: 0;
     width: 100%;
-    max-height: calc(100vh - 40vh);
-    overflow-y: auto;
+    max-height: none;
+    overflow: visible;
     flex: 1;
+}
+
+.browse-active-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+    /* color: var(--dark-bg); */
+    overflow: visible;
+    border-radius: 0.9rem;
+    border: 1px dashed var(--border-color);
+    max-height: none;
+    background-color: #FDFBFD;
+}
+
+
+
+.active-tag-chip{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: rgba(235, 228, 234, 0.7);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--dark-bg);
+}
+
+.active-tag-remove{
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--dark-bg);
+    font-size: 0.85rem;
+    padding: 0;
+}
+
+.active-tag-remove:hover{
+    color: var(--primary-color);
+}
+
+.active-tag-clear{
+    border: 1px solid var(--border-color-light);
+    /* background-color: #F3ECF4; */
+    background: none;
+    color: var(--dark-bg);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.active-tag-clear:hover{
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.active-tag-empty{
+    font-size: 0.85rem;
+    opacity: 0.7;
+    text-align: center;
+    width: 100%;
+    color: var(--dark-bg);
 }
 
 .browse-nav-section{
@@ -89,6 +338,26 @@ nav{
     font-family: "larken", serif;
     font-size: 0.95rem;
     color: var(--dark-bg);
+}
+
+.browse-nav-toggle-content{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.browse-nav-checkbox{
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.browse-nav-checkbox-input{
+    accent-color: var(--primary-color);
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 0.08rem;
 }
 
 .browse-nav-item-toggle{
@@ -132,6 +401,28 @@ nav{
     display: block;
 }
 
+.browse-journal-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    align-items: flex-start;
+    color: var(--dark-bg);
+    padding: 12px 20px 1rem;
+}
+
+.div-filter{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.browse-journal-tags .browse-nav-checkbox{
+    /* background-color: rgba(235, 228, 234, 0.7); */
+    /* padding: 0.35rem 0.7rem; */
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
 
 /* browse main content */
 .container-browser-main-content{
@@ -150,6 +441,16 @@ nav{
     gap: 1.5rem;
     margin-top: 80px;
     margin-bottom: 3rem;
+}
+
+.browse-loading{
+    font-size: 0.95rem;
+    color: var(--dark-bg);
+    margin-top: 1rem;
+}
+
+.browse-loading.is-hidden{
+    display: none;
 }
 
 .database-pagination{
@@ -239,6 +540,15 @@ nav{
     color: var(--dark-bg);
 }
 
+.entry-tag-btn{
+    border: none;
+    cursor: pointer;
+}
+
+.entry-tag-btn:hover{
+    color: var(--primary-color);
+}
+
 .tag-open-access{
     display: flex;
     align-items: center;
@@ -284,6 +594,7 @@ nav{
     background: none;
     border: none;
     cursor: pointer;
+    color: var(--primary-color);
 }
 
 
@@ -324,5 +635,60 @@ nav{
     order: -2;
     font-family: "geist", sans-serif;
     font-size: 0.9rem;
+}
+
+.entry-journal-btn{
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 500;
+    /* color: var(--primary-color); */
+    cursor: pointer;
+}
+
+.entry-journal-btn:hover{
+    text-decoration: underline;
+}
+
+
+/* sidebar */
+.sidebar{
+    position: sticky;
+    top: 220px;
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    min-height: 0;
+}
+
+.sidebar .input-bar{
+    flex-shrink: 0;
+}
+
+.sidebar.data-sidebar{
+    gap: 1rem;
+}
+
+.sidebar h2{
+    font-size: var(--title-rg);
+}
+
+/* .sidebar h2:last-of-type{
+    margin-bottom: 0.4rem;
+} */
+
+.database-search-bar{
+    padding: 0.5rem 0.75rem;
+    
+}
+
+.glossary-search-icon{
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+#browse-search{
+    padding: 0.5rem 0.75rem;
 }
 
