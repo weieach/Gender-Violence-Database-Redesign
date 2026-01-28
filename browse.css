@@ -136,9 +136,11 @@ nav{
 /* browse main content */
 .container-browser-main-content{
     display: flex;
+    flex-direction: column;
     gap: 2rem;
     flex: 1;
     min-width: 0;
+    align-items: flex-start;
 }
 
 .database-entries{
@@ -148,6 +150,42 @@ nav{
     gap: 1.5rem;
     margin-top: 80px;
     margin-bottom: 3rem;
+}
+
+.database-pagination{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    /* margin-top: 1.5rem; */
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-btn{
+    border: 1px solid var(--border-color-light);
+    background-color: #F3ECF4;
+    color: var(--dark-bg);
+    border-radius: 0.6rem;
+    padding: 0.35rem 0.7rem;
+    min-width: 2.2rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.page-btn.is-active{
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.page-btn.is-disabled{
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.page-btn:hover:not(.is-active):not(.is-disabled){
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .database-entry{

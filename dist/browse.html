@@ -22,10 +22,12 @@
         href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <!-- gsap -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/script-QsVmIVPK.js"></script>
-  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/gsap-Dv6COrL5.js"></script>
-  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/glossary-CUDEyueV.js"></script>
-  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-DvAV8CyP.css">
+  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/browse-B4aL_WPi.js"></script>
+  <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-YnJ9GOSE.js">
+  <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/gsap-Dv6COrL5.js">
+  <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/glossary-CUDEyueV.js">
+  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-NHVk-MFc.css">
+  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/browse-DzxN04Tk.css">
 </head>
 
 <body>
@@ -86,15 +88,25 @@
             </div>
         </div>
     </div>
+    <div class="browse-header">
+        <h1>Browse</h1>
+        <div class="input-bar">
+            <div class="input-bar-controls">
+                <input placeholder="Search by keywords, journals, or tags..." type="text">
+            </div>
+            <button type="submit" class="primary-btn primary-btn-search"><i class="ph-bold ph-magnifying-glass"></i></button>
+        </div>
+        <button>Bookmarks</button>
+    </div>
     <div id="smooth-wrapper">
         <div id="smooth-content">
-            <div class="div-screen glossary-page">
+            <div class="div-screen browse-page">
                 <div class="sidebar">
                     <div class="sidebar-header">
-                        <h1>Browse</h1>
+                        
                     </div>
 
-                    <div class="input-bar glossary-search-bar">
+                    <div class="input-bar database-search-bar">
                         <input placeholder="Search glossary..." type="text" id="glossary-search" autocomplete="off">
                         <button type="button" class="glossary-search-icon" aria-label="Search glossary">
                             <i class="ph-bold ph-magnifying-glass"></i>
@@ -116,35 +128,48 @@
                         </div>
                     </div>
 
-                    <nav class="glossary-nav" id="glossary-nav">
+                    <nav class="browse-tags-nav" id="browse-nav">
                         <!-- Navigation will be rendered here by JavaScript -->
                     </nav>
                 </div>
-                <div class="container-glossary-main-content">
-                    <div class="glossary-main-content" id="glossary-content">
-                        <!-- Glossary content will be rendered here by JavaScript -->
+                <div class="container-browser-main-content">
+                    <div class="database-entries">
+                        <!-- Database entries will be rendered here by JavaScript -->
+                        <!-- <div class="database-entry">
+                            <button class="btn-bookmark">
+                                <i class="ph-bold ph-bookmark-simple"></i>
+                            </button>
+                            <div class="database-entry-text">
+                                
+                                <h3><a href="https://journals.sagepub.com/doi/10.1177/10778012241270223" target="_blank">Navigating Online and in-Person Support: Views and Experiences From Survivors of 
+                                Intimate Partner Violence and Abuse</a></h3>
+                                <h4 class="entry-journal">Journal: Violence Against Women</h4>
+                                <p class="entry-authors">Nicole van Gelder , Jeyna Sow , Ditte van Haalen , Iris Schoorlemmer , Margreet Knolet al</p>
+                                <p class="entry-description">Various types of in-person and online support are available to women intimate partner violence and abuse (IPVA) survivors. However, we know 
+                                little about the interplay between them. We investigated the transitions and interactions between these types of help and how their use can be optimized, using a 
+                                mixed-methods approach (survey N = 107; interviews N = 18). Significant but weak correlations were found for specific IPVA and support types. No significant correlations were 
+                                found between online and in-person help types. Almost 60% of survey participants expressed interest in blended care. Integration and optimization of online and blended care 
+                                options can increase outreach and provide an enhanced, tailored help-seeking and recovery journey.</p>
+                                <hr>
+                                <div class="entry-tags">
+                                    <div class="entry-tag tag-open-access">Open access
+                                        <i class="ph ph-folder-open"></i>
+                                    </div>
+                                    <div class="entry-tag">Judicial proceedings</div>
+                                    <div class="entry-tag">Sexual assault</div>
+                                    <div class="entry-tag">Stalking</div>
+                                    <div class="entry-tag tag-more">+4</div>
+                                    <button class="btn-expand-tag">
+                                        <p>Expand</p>
+                                        <i class="ph-bold ph-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                         </div> -->
                     </div>
+                    <div class="database-pagination" id="browse-pagination" aria-label="Browse pagination"></div>
                 </div>
 
-            </div>
-            <div class="glossary-modal is-hidden" id="glossary-info-modal" role="dialog" aria-modal="true"
-                aria-labelledby="glossary-info-title">
-                <div class="glossary-modal-content" role="document">
-                    <div class="glossary-modal-header">
-                        <h2 id="glossary-info-title">About GVD Glossary</h2>
-                        <button type="button" class="glossary-modal-close icon-btn"
-                            aria-label="Close glossary information">
-                            <i class="ph ph-x"></i>
-                        </button>
-                    </div>
-                    <p>This glossary defines terms used in the schema which guides the tagging process. The glossary
-                        functions as a way to define terms outside of where they fall in the organizational structure of
-                        the schema as well as to provide more information about what topics specific terms are
-                        encompassing.</p>
-                    <div class="glossary-modal-actions">
-                        <button type="button" class="primary-btn glossary-modal-done">Done</button>
-                    </div>
-                </div>
             </div>
 
             <footer>
@@ -195,6 +220,7 @@
             <!-- ScrollSmoother requires ScrollTrigger -->
             <script type="module" src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollSmoother.min.js"></script>
             <!-- glossary script -->
+            <!-- browse script -->
             <!-- js script -->
         </div>
     </div>
