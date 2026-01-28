@@ -1,6 +1,11 @@
 const DATA_BASE_PATH = "src/data/";
+const PUBLIC_DATA_BASE_PATH = "data/";
 const BROWSE_SAMPLES_PATH = `${DATA_BASE_PATH}browse-samples.json`;
-const TAG_SCHEMA_PATH = `${DATA_BASE_PATH}schema%20key%20name%20translation.csv`;
+const TAG_SCHEMA_FILE = "schema%20key%20name%20translation.csv";
+const TAG_SCHEMA_PATHS = [
+    `${PUBLIC_DATA_BASE_PATH}${TAG_SCHEMA_FILE}`,
+    `${DATA_BASE_PATH}${TAG_SCHEMA_FILE}`
+];
 
 function renderBrowseNav(sections) {
     const navContainer = document.getElementById('browse-nav');
@@ -218,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function initBrowsePage() {
     try {
-        const schemaCsv = await fetchText(TAG_SCHEMA_PATH);
+        const schemaCsv = await fetchFirstText(TAG_SCHEMA_PATHS);
         tagLabelMap = buildTagLabelMap(schemaCsv);
         schemaTree = buildSchemaTree(schemaCsv);
         renderBrowseNavFromSchema(schemaTree);
@@ -1030,6 +1035,18 @@ async function fetchText(path) {
         throw new Error(`Failed to load ${path}: ${response.status}`);
     }
     return response.text();
+}
+
+async function fetchFirstText(paths) {
+    let lastError = null;
+    for (const path of paths) {
+        try {
+            return await fetchText(path);
+        } catch (error) {
+            lastError = error;
+        }
+    }
+    throw lastError;
 }
 
 function mapTagLabel(tag) {
