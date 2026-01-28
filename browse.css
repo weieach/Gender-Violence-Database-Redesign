@@ -24,13 +24,16 @@ nav{
 
 .browse-search-wrap{
     position: relative;
+    flex: 1;
     width: 100%;
-    max-width: 640px;
+    max-width: 680px;
 }
 
 .browse-header .input-bar{
     position: relative;
     overflow: hidden;
+    width: 100%;
+    max-width: none;
 }
 
 .browse-search-results{
