@@ -137,7 +137,7 @@ h4{
 }
 
 .dev-note{
-    color: rgb(255, 106, 0);
+    color: rgb(185, 79, 3);
 }
 
 .div-screen{
@@ -261,6 +261,23 @@ input{
     gap: 1.5rem;
 }
 
+.fifth-screen .headings{
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.fifth-screen .headings a:hover{
+    text-decoration: underline;
+    color: var(--primary-color);
+}
+
+.blog-thumbnail{
+    min-width: 170px;
+    object-fit: cover;
+}
+
 
 .second-screen > img{
     width: 450px;
@@ -312,8 +329,8 @@ input{
     max-width: 384px;
     overflow: hidden;
     /* background-color: #F4F0F4; */
-    background-image: url("assets-gvd/blog-thumbnail-placeholder.png");
-    background-size: cover;
+    background-image: url("assets-gvd/CHSDM-0F0A7D42177D2-000001.jpg");
+    background-size: contain;
     justify-content: end;
 }
 
