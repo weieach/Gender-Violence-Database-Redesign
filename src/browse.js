@@ -1,5 +1,5 @@
 const BROWSE_SAMPLES_PATH = "/src/data/browse-samples.json";
-const TAG_SCHEMA_PATH = "/src/data/schema key name translation.csv";
+const TAG_SCHEMA_PATH = "/src/data/schema%20key%20name%20translation.csv";
 
 function renderBrowseNav(sections) {
     const navContainer = document.getElementById('browse-nav');
