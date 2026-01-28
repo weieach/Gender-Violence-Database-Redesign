@@ -6,7 +6,7 @@ nav{
 
 .browse-header{
     display: flex;
-    gap: 3rem;
+    gap: 0rem;
     position: fixed;
    align-items: end;
     border-bottom: 0.9px solid #e1d0e2;
@@ -27,6 +27,7 @@ nav{
     flex: 1;
     width: 100%;
     max-width: 680px;
+    margin-left: 3rem;
 }
 
 .browse-header .input-bar{
@@ -110,6 +111,60 @@ nav{
     z-index: 60;
 }
 
+.bookmark-toast{
+    position: fixed;
+    top: 220px;
+    right: 2.75rem;
+    width: 320px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color-light);
+    border-radius: 0.9rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    padding: 1rem 1.25rem;
+    z-index: 61;
+    overflow: hidden;
+}
+
+.bookmark-toast.is-hidden{
+    display: none;
+}
+
+.bookmark-toast p{
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.bookmark-toast i{
+    color: var(--cerulean);
+    font-size: 1.5rem;
+}
+
+.bookmark-toast > div{
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.bookmark-toast-progress{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    background-color: var(--cerulean);
+    border-radius: 0 0 0.9rem 0.9rem;
+    transform-origin: left;
+}
+
+.bookmark-toast.is-active .bookmark-toast-progress{
+    animation: bookmark-toast-progress 5s linear forwards;
+}
+
+@keyframes bookmark-toast-progress{
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
 .bookmark-panel.is-hidden{
     display: none;
 }
@@ -135,6 +190,11 @@ nav{
     font-family: "geist";
     color: black;
     margin: 0;
+}
+
+.bookmark-count{
+    font-weight: 400;
+    color: var(--dark-bg);
 }
 
 .bookmark-close{

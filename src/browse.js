@@ -208,6 +208,8 @@ let activeTagSignatures = new Set();
 let activeTagSelections = [];
 let entryLookup = new Map();
 const bookmarkedEntries = new Map();
+let bookmarkToastTimer = null;
+let hasShownBookmarkToast = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     initBrowsePage();
@@ -227,6 +229,7 @@ async function initBrowsePage() {
     }
 
     initBookmarkUI();
+    updateBookmarkCounts();
     initSearchResults();
     await loadBrowseEntries();
 }
@@ -725,6 +728,10 @@ function initEntryBookmarks(container) {
                 const entry = entryLookup.get(entryId);
                 if (entry) {
                     bookmarkedEntries.set(entryId, entry);
+                    if (!hasShownBookmarkToast) {
+                        showBookmarkToast();
+                        hasShownBookmarkToast = true;
+                    }
                 }
             }
 
@@ -797,6 +804,8 @@ function renderBookmarks() {
     const list = document.getElementById('bookmark-list');
     if (!list) return;
 
+    updateBookmarkCounts();
+
     if (bookmarkedEntries.size === 0) {
         list.innerHTML = '<p class="bookmark-empty">No bookmarks yet.</p>';
         return;
@@ -831,6 +840,33 @@ function renderBookmarks() {
             renderBrowsePage();
         });
     });
+}
+
+function updateBookmarkCounts() {
+    const countText = `(${bookmarkedEntries.size})`;
+    const headerCount = document.getElementById('bookmark-count-panel');
+    const buttonCount = document.getElementById('bookmark-count');
+    if (headerCount) headerCount.textContent = countText;
+    if (buttonCount) buttonCount.textContent = countText;
+}
+
+function showBookmarkToast() {
+    const toast = document.getElementById('bookmark-toast');
+    if (!toast) return;
+
+    toast.classList.remove('is-hidden');
+    toast.classList.remove('is-active');
+    void toast.offsetWidth;
+    toast.classList.add('is-active');
+
+    if (bookmarkToastTimer) {
+        clearTimeout(bookmarkToastTimer);
+    }
+
+    bookmarkToastTimer = setTimeout(() => {
+        toast.classList.add('is-hidden');
+        toast.classList.remove('is-active');
+    }, 5000);
 }
 
 function makeEntryId(entry) {

@@ -22,12 +22,12 @@
         href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
     <!-- gsap -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/browse-B_FEpijJ.js"></script>
-  <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-YnJ9GOSE.js">
+  <script type="module" crossorigin src="/Gender-Violence-Database-Redesign/assets/browse-C_tqgLbt.js"></script>
+  <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-Be7BTjsz.js">
   <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/gsap-Dv6COrL5.js">
   <link rel="modulepreload" crossorigin href="/Gender-Violence-Database-Redesign/assets/glossary-CUDEyueV.js">
-  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-NHVk-MFc.css">
-  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/browse-5JlIl8DD.css">
+  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/script-DUKBm68e.css">
+  <link rel="stylesheet" crossorigin href="/Gender-Violence-Database-Redesign/assets/browse-MRTCtxn9.css">
 </head>
 
 <body>
@@ -90,26 +90,37 @@
     </div>
     <div class="browse-header">
         <h1>Browse</h1>
-        <div class="browse-search-wrap">
-            <div class="input-bar">
-                <div class="input-bar-controls">
-                    <input placeholder="Search by keywords, journals, or tags..." type="text" id="browse-search-input" autocomplete="off">
+        <!-- <div> -->
+            <div class="browse-search-wrap">
+                <div class="input-bar">
+                    <div class="input-bar-controls">
+                        <input placeholder="Search by keywords, journals, or tags..." type="text"
+                            id="browse-search-input" autocomplete="off">
+                    </div>
+                    <button type="submit" class="primary-btn primary-btn-search"><i
+                            class="ph-bold ph-magnifying-glass"></i></button>
                 </div>
-                <button type="submit" class="primary-btn primary-btn-search"><i
-                        class="ph-bold ph-magnifying-glass"></i></button>
+                <div class="browse-search-results is-hidden" id="browse-search-results" aria-live="polite"></div>
             </div>
-            <div class="browse-search-results is-hidden" id="browse-search-results" aria-live="polite"></div>
-        </div>
-        <button type="button" class="bookmark-toggle" id="bookmark-toggle">Bookmarks</button>
+            <button type="button" class="bookmark-toggle" id="bookmark-toggle">Bookmarks <span class="bookmark-count"
+                    id="bookmark-count"></span></button>
+        <!-- </div> -->
     </div>
     <div class="bookmark-panel is-hidden" id="bookmark-panel" aria-live="polite">
         <div class="bookmark-panel-header">
-            <h3>Bookmarks</h3>
+            <h3>Bookmarks <span class="bookmark-count" id="bookmark-count-panel"></span></h3>
             <button type="button" class="bookmark-close" id="bookmark-close" aria-label="Close bookmarks">
                 <i class="ph ph-x"></i>
             </button>
         </div>
         <div class="bookmark-list" id="bookmark-list"></div>
+    </div>
+    <div class="bookmark-toast is-hidden" id="bookmark-toast" role="status" aria-live="polite">
+        <div>
+            <i class="ph-fill ph-check-circle"></i>
+            <p>Added to bookmarks</p>
+        </div>
+        <span class="bookmark-toast-progress" aria-hidden="true"></span>
     </div>
     <div id="smooth-wrapper">
         <div id="smooth-content">
